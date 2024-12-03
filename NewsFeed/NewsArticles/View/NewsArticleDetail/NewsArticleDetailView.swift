@@ -50,8 +50,8 @@ struct NewsArticleDetailView: View {
 
                 }) {
                     Image(systemName: viewModel.article?.isBookmarked ?? false ? ImageConstants.bookmarkFillIcon : ImageConstants.bookmarkIcon)
+                        .resizable()
                         .foregroundColor(viewModel.article?.isBookmarked ?? false ? .yellow : .gray)
-                        .font(.title2)
                 }
             }
         }
