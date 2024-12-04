@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct NewsArticlesView: View {
-    @StateObject var viewModel = NewsArticlesViewModel()
+    @StateObject var viewModel: NewsArticlesViewModel
     @State private var showBottomSheet = false
     @State private var selectedCategory: Category?
+    
+    init() {
+        _viewModel = StateObject(wrappedValue: NewsArticlesViewModel(newsService: NetworkManager()))
+      }
     
     var body: some View {
         NavigationStack {

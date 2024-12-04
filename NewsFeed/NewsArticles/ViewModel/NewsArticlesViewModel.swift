@@ -9,16 +9,19 @@ import SwiftUI
 
 class NewsArticlesViewModel: ObservableObject {
     
-    @Published private var articles: [Article] = []
+    @Published var articles: [Article] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var categories: [Category] = []
+    
+    private let newsService: NewsServiceProtocol?
     
     var filteredArticles: [Article] {
         articles.filter { $0.source?.id != nil }
     }
     
-    init() {
+    init(newsService: NewsServiceProtocol) {
+        self.newsService = newsService
         loadCategories()
     }
 }
@@ -41,24 +44,30 @@ extension NewsArticlesViewModel {
 extension NewsArticlesViewModel {
     
     func getNewsArticles(category: CategoryEnum.RawValue) async {
-        await MainActor.run {
-            isLoading = true
-            errorMessage = nil
+
+        await updateUI(isLoading: true, errorMessage: nil)
+        
+        guard let service = newsService else {
+            await updateUI(isLoading: false, errorMessage: "News service is unavailable")
+            return
         }
         
-        let result: Result<[Article], Error> = await NetworkManager.shared.request(api: .newsArticles(category: category), responseType: [Article].self)
+        let result: Result<[Article], Error> = await service.request(api: .newsArticles(category: category), responseType: [Article].self)
         
         switch result {
         case .success(let response):
-            await MainActor.run {
-                articles = response
-                errorMessage = nil
-                isLoading = false
-            }
+            await updateUI(isLoading: false, errorMessage: nil, articles: response)
         case .failure(let error):
-            await MainActor.run {
-                isLoading = false
-                errorMessage = "Failed to load articles. Please try again. Error: \(error.localizedDescription)"
+            await updateUI(isLoading: false, errorMessage: "Failed to load articles. Error: \(error.localizedDescription)")
+        }
+    }
+    
+    private func updateUI(isLoading: Bool, errorMessage: String? = nil, articles: [Article]? = nil) async {
+        await MainActor.run {
+            self.isLoading = isLoading
+            self.errorMessage = errorMessage
+            if let articles = articles {
+                self.articles = articles
             }
         }
     }

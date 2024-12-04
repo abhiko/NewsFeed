@@ -7,12 +7,12 @@
 
 import Foundation
 
-final class NetworkManager {
-    
-    static let shared = NetworkManager()
-    
-    private init() {}
-    
+protocol NewsServiceProtocol {
+    func request<T: Decodable>(api: NetworkAPI, responseType: T.Type) async -> Result<T, Error>
+}
+
+final class NetworkManager: NewsServiceProtocol {
+        
     func request<T: Decodable>(api: NetworkAPI, responseType: T.Type) async -> Result<T, Error> {
         
         guard let url = api.fullURL else {
