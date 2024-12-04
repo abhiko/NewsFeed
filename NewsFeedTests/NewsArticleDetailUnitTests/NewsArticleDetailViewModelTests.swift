@@ -21,7 +21,7 @@ import SwiftUI
             author: "Author 1",
             title: "Mock Article 1",
             description: "This is the description for mock article 1",
-            url: "https://www.example.com/mock-article-1",
+            url: "https://www.example.com",
             urlToImage: "https://www.example.com/image1.jpg",
             publishedAt: "",
             content: "",

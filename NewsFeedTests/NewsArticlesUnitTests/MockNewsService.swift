@@ -18,8 +18,8 @@ class MockNewsService: NewsServiceProtocol {
             author: "Author 1",
             title: "Mock Article 1",
             description: "This is the description for mock article 1",
-            url: "https://www.example.com/mock-article-1",
-            urlToImage: "https://www.example.com/image1.jpg",
+            url: "https://www.example.com",
+            urlToImage: "",
             publishedAt: "",
             content: "",
             isBookmarked: false
@@ -29,8 +29,8 @@ class MockNewsService: NewsServiceProtocol {
             author: "Author 2",
             title: "Mock Article 2",
             description: "This is the description for mock article 2",
-            url: "https://www.example.com/mock-article-2",
-            urlToImage: "https://www.example.com/image2.jpg",
+            url: "https://www.example.com",
+            urlToImage: "",
             publishedAt: "",
             content: "",
             isBookmarked: false
