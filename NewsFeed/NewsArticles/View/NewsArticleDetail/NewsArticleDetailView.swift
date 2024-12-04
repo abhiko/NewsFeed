@@ -21,33 +21,32 @@ struct NewsArticleDetailView: View {
             VStack(alignment: .leading) {
                 
                 CommonAsyncImage(url: URL(string: viewModel.article?.urlToImage ?? ""), height: 200)
-
+                
                 Text(viewModel.article?.title ?? "")
-                    .font(.title)
+                    .font(.headline)
                     .fontWeight(.bold)
-
+                
                 Text(viewModel.article?.publishedAt ?? "")
                     .font(.subheadline)
                     .foregroundColor(.gray)
-
+                
                 Divider()
-
+                
                 Text(viewModel.article?.description ?? "")
                     .font(.body)
                     .padding(.top)
-
+                
                 Spacer()
             }
-            .padding()
         }
+        .padding(.horizontal, 10)
         .navigationTitle("Article Details")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                        viewModel.toggleBookmark()
+                    viewModel.toggleBookmark()
                     presentationMode.wrappedValue.dismiss()
-
                 }) {
                     Image(systemName: viewModel.article?.isBookmarked ?? false ? ImageConstants.bookmarkFillIcon : ImageConstants.bookmarkIcon)
                         .resizable()

@@ -37,33 +37,29 @@ struct NewsArticlesView: View {
                     }
                     .padding(.top)
                 } else {
-                    List(viewModel.filteredArticles, id: \.url) { article in
-                        NewsArticlesListView(article: article)
-                            .background(
-                                NavigationLink("", destination: NewsArticleDetailView(article: article))
-                                    .opacity(0)
-                            )
-                            .listRowInsets(EdgeInsets())
+                    List {
+                        Section(header:
+                                    Text("\(selectedCategory?.name ?? "") News")
+                            .font(.title2)
+                            .foregroundColor(.blue)
+                        )  {
+                            ForEach(viewModel.filteredArticles, id: \.url) { article in
+                                NewsArticlesListView(article: article)
+                                    .background(
+                                        NavigationLink("", destination: NewsArticleDetailView(article: article))
+                                            .opacity(0)
+                                    )
+                            }
+                        }
                     }
-                    .listStyle(PlainListStyle())
-                    .padding(.horizontal)
+                    .listStyle(.plain)
                     .refreshable {
                         self.getApiCallNewsArticles()
                     }
                 }
             }
-            .onAppear {
-                if selectedCategory == nil {
-                    selectedCategory = viewModel.categories.first
-                }
-            }
-            .onChange(of: selectedCategory) { oldValue, newValue in
-                if newValue != nil {
-                    self.getApiCallNewsArticles()
-                    showBottomSheet = false
-                }
-            }
             .navigationTitle("News Articles")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
@@ -83,12 +79,24 @@ struct NewsArticlesView: View {
                     }
                 }
             }
+            .onAppear {
+                if selectedCategory == nil {
+                    selectedCategory = viewModel.categories.first
+                }
+            }
+            .onChange(of: selectedCategory) { oldValue, newValue in
+                if newValue != nil {
+                    self.getApiCallNewsArticles()
+                    showBottomSheet = false
+                }
+            }
             .sheet(isPresented: $showBottomSheet) {
                 CategoryBottomSheetView(categories: viewModel.categories, selectedCategoryBind: $selectedCategory)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.visible)
             }
         }
+        
     }
     
     private func getApiCallNewsArticles() {

@@ -45,7 +45,7 @@ extension NewsArticlesViewModel {
             isLoading = true
             errorMessage = nil
         }
-                
+        
         let result: Result<[Article], Error> = await NetworkManager.shared.request(api: .newsArticles(category: category), responseType: [Article].self)
         
         switch result {
@@ -62,5 +62,5 @@ extension NewsArticlesViewModel {
             }
         }
     }
-
+    
 }

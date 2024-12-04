@@ -38,23 +38,17 @@ final class NetworkManager {
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             
-            if let httpResponse = response as? HTTPURLResponse {
-                 print("HTTP Status Code: \(httpResponse.statusCode)")
-                 print("HTTP Headers: \(httpResponse.allHeaderFields)")
-             }
-            
             if let url = request.url {
                 print("Request URL: \(url.absoluteString)")
             } else {
                 print("Request URL is not available.")
             }
             
-             // Check if the data is valid and try to print it
-             if let responseData = String(data: data, encoding: .utf8) {
-                 print("Response Data:\n\(responseData)")
-             } else {
-                 print("Response Data could not be converted to String.")
-             }
+            if let responseData = String(data: data, encoding: .utf8) {
+                print("Response Data:\n\(responseData)")
+            } else {
+                print("Response Data could not be converted to String.")
+            }
             
             guard response is HTTPURLResponse else {
                 return .failure(URLError(.badServerResponse))
@@ -70,8 +64,7 @@ final class NetworkManager {
                 print("Error Message: \(message)")
                 return .failure(URLError(.badServerResponse))
             } else {
-                print("Unexpected Response Format")
-                return .failure(URLError(.cannotParseResponse)) 
+                return .failure(URLError(.cannotParseResponse))
             }
             
         } catch {

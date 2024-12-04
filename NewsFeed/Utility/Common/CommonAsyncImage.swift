@@ -17,9 +17,8 @@ struct CommonAsyncImage: View {
         AsyncImage(url: url) { image in
             image
                 .resizable()
-                .scaledToFill()
-                .frame(height: height)
                 .frame(maxWidth: .infinity)
+                .frame(height: height)
                 .clipped()
                 .cornerRadius(8)
         } placeholder: {
