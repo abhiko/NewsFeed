@@ -20,8 +20,8 @@ class MockNewsService: NewsServiceProtocol {
             description: "This is the description for mock article 1",
             url: "https://www.example.com/mock-article-1",
             urlToImage: "https://www.example.com/image1.jpg",
-            publishedAt: "2024-12-04T12:00:00Z",
-            content: "Content of the mock article 1",
+            publishedAt: "",
+            content: "",
             isBookmarked: false
         ),
         Article(
@@ -31,8 +31,8 @@ class MockNewsService: NewsServiceProtocol {
             description: "This is the description for mock article 2",
             url: "https://www.example.com/mock-article-2",
             urlToImage: "https://www.example.com/image2.jpg",
-            publishedAt: "2024-12-04T13:00:00Z",
-            content: "Content of the mock article 2",
+            publishedAt: "",
+            content: "",
             isBookmarked: false
         )
     ]

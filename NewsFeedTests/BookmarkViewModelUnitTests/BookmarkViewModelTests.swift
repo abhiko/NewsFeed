@@ -23,8 +23,8 @@ class BookmarkViewModelTests: XCTestCase {
             description: "This is the description for mock article 1",
             url: "https://www.example.com/mock-article-1",
             urlToImage: "https://www.example.com/image1.jpg",
-            publishedAt: "2024-12-04T12:00:00Z",
-            content: "Content of the mock article 1",
+            publishedAt: "",
+            content: "",
             isBookmarked: false
         )
         
