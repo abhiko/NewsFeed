@@ -40,7 +40,7 @@ extension NetworkAPI {
         switch self {
         case .newsArticles(let category):
             return [
-                "apiKey": "5f0052e539c24039a77696fb76534bb2",
+                "apiKey": getAPIKey(),
                 "country": "us",
                 "category": category,
                 "sortBy": "publishedAt"
@@ -69,5 +69,8 @@ extension NetworkAPI {
         return components.url
     }
     
+    private func getAPIKey() -> String {
+        return "5f0052e539c24039a77696fb76534bb2"
+    }
 }
 
