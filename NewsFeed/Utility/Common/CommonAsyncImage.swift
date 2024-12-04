@@ -19,8 +19,8 @@ struct CommonAsyncImage: View {
                 .resizable()
                 .frame(maxWidth: .infinity)
                 .frame(height: height)
-                .clipped()
                 .cornerRadius(8)
+                .clipped()
         } placeholder: {
             Color.gray.opacity(0.2)
                 .frame(maxWidth: .infinity)

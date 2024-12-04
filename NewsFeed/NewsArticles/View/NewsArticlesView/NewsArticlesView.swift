@@ -42,6 +42,7 @@ struct NewsArticlesView: View {
                                     Text("\(selectedCategory?.name ?? "") News")
                             .font(.title2)
                             .foregroundColor(.blue)
+                            .padding(.bottom, 2)
                         )  {
                             ForEach(viewModel.filteredArticles, id: \.url) { article in
                                 NewsArticlesListView(article: article)
@@ -49,6 +50,7 @@ struct NewsArticlesView: View {
                                         NavigationLink("", destination: NewsArticleDetailView(article: article))
                                             .opacity(0)
                                     )
+                                    .listRowSeparator(.hidden)
                             }
                         }
                     }

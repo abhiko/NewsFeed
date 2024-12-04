@@ -26,8 +26,9 @@ struct BookmarkView: View {
                                 NavigationLink("", destination: NewsArticleDetailView(article: article))
                                     .opacity(0)
                             )
-                            .listRowInsets(EdgeInsets())
+                            .listRowSeparator(.hidden)
                     }
+                    .listStyle(.plain)
                 }
             } .onAppear {
                 viewModel.loadBookmarkedArticles()
