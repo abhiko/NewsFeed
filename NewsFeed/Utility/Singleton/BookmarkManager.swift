@@ -7,17 +7,26 @@
 
 import SwiftUI
 
+protocol BookmarkStorageProtocol: AnyObject {
+    var bookmarkedArticlesData: Data { get set }
+}
+
+class AppStorageBookmarkStorage: BookmarkStorageProtocol {
+   @AppStorage("bookmarkedArticles") var bookmarkedArticlesData: Data = Data()
+}
+
 final class BookmarkManager: ObservableObject {
     
-    static let shared = BookmarkManager()
-
-    @AppStorage("bookmarkedArticles") private var bookmarkedArticlesData: Data = Data()
+    static let shared = BookmarkManager(storage: AppStorageBookmarkStorage())
 
     @Published private(set) var bookmarkedArticles: [Article] = []
 
-    private init() {
-        loadBookmarks()
-    }
+    private let storage: BookmarkStorageProtocol?
+
+    private init(storage: BookmarkStorageProtocol) {
+          self.storage = storage
+          loadBookmarks()
+      }
 
     func toggleBookmark(for article: Article) {
         if isBookmarked(article) {
@@ -48,14 +57,15 @@ final class BookmarkManager: ObservableObject {
     private func saveBookmarks() {
         do {
             let data = try JSONEncoder().encode(bookmarkedArticles)
-            bookmarkedArticlesData = data
+            storage?.bookmarkedArticlesData = data
         } catch {
             print("Failed to save bookmarks: \(error.localizedDescription)")
         }
     }
 
     private func loadBookmarks() {
-        guard let articles = try? JSONDecoder().decode([Article].self, from: bookmarkedArticlesData) else {
+        guard  let storageValue = storage?.bookmarkedArticlesData,
+               let articles = try? JSONDecoder().decode([Article].self, from: storageValue) else {
             return
         }
         self.bookmarkedArticles = articles
